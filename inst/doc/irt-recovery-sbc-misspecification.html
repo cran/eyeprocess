@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>IRT recovery, SBC, and misspecification evidence</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">IRT recovery, SBC, and misspecification
+evidence</h1>
+
+
+
+<p>Simulation-based calibration (SBC) and parameter recovery answer
+different software-validation questions. Recovery checks whether fitted
+estimates reproduce known generating quantities under declared
+scenarios; SBC checks calibration of posterior computation under the
+declared generative model.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">eyeprocess_irt_recovery_design</span>(<span class="at">sample_size =</span> <span class="dv">250</span><span class="dt">L</span>, <span class="at">n_items =</span> <span class="dv">12</span><span class="dt">L</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                                          <span class="at">missing_rate =</span> <span class="fu">c</span>(<span class="dv">0</span>,.<span class="dv">15</span>), <span class="at">testlet_sd =</span> <span class="fu">c</span>(<span class="dv">0</span>,.<span class="dv">35</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>                                          <span class="at">replications =</span> <span class="dv">5</span><span class="dt">L</span>, <span class="at">seed =</span> <span class="dv">20260811</span><span class="dt">L</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">head</span>(design)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt;   scenario_id sample_size n_items missing_rate testlet_sd replications     seed</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; 1   IRTREC001         250      12         0.00       0.00            5 20260811</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; 2   IRTREC002         250      12         0.15       0.00            5 20260811</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; 3   IRTREC003         250      12         0.00       0.35            5 20260811</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; 4   IRTREC004         250      12         0.15       0.35            5 20260811</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">eyeprocess_irt_misspecification_suite</span>()</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;                       scenario                perturbation</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; 1                    reference                        none</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; 2             local_dependence       testlet random effect</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt; 3                  missingness               MCAR omission</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; 4 discrimination_heterogeneity    wider log-discrimination</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; 5              lower_asymptote    non-zero lower asymptote</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; 6               latent_mixture two-component theta mixture</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt;                            target</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; 1            calibration baseline</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; 2              local independence</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt; 3         missing-data robustness</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; 4              item heterogeneity</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; 5            guessing sensitivity</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; 6 latent distribution sensitivity</span></span></code></pre></div>
+<p>Exact recovery fitting currently requires <code>mirt</code>; absence
+produces a gated result. SBC rank summaries reuse eyeprocess’s
+rank-diagnostic infrastructure.</p>
+<p>The SBC workflow follows the logic of Talts et al., <em>Validating
+Bayesian Inference Algorithms with Simulation-Based Calibration</em>: <a href="https://arxiv.org/abs/1804.06788" class="uri">https://arxiv.org/abs/1804.06788</a>.</p>
+<!-- BEGIN EYEPROCESS ARTICLE VISUALS SBC -->
+<div id="simulation-based-calibration-view" class="section level2">
+<h2>Simulation-based calibration view</h2>
+<p>The figure below is generated from a small deterministic known-item
+simulation. It is a computational calibration diagnostic under the
+declared generative model, not evidence of empirical model adequacy.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>viz_items <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">item_id =</span> <span class="fu">paste0</span>(<span class="st">&#39;I&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">seq</span>(<span class="fl">0.8</span>, <span class="fl">1.5</span>, <span class="at">length.out =</span> <span class="dv">8</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">b =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="at">length.out =</span> <span class="dv">8</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">0</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">d =</span> <span class="dv">1</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>viz_sbc <span class="ot">&lt;-</span> eyeprocess<span class="sc">::</span><span class="fu">run_eyeprocess_irt_ability_sbc</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="at">items =</span> viz_items,</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="at">replications =</span> <span class="dv">20</span><span class="dt">L</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="at">posterior_draws =</span> <span class="dv">19</span><span class="dt">L</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  <span class="at">theta_grid =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">201</span><span class="dt">L</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">902</span><span class="dt">L</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>)</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>  <span class="fu">inherits</span>(viz_sbc, <span class="st">&#39;eye_irt_sbc_evidence&#39;</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>)</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="fu">plot</span>(viz_sbc)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img role="img" aria-label="Simulation-based calibration diagnostic for the deterministic known-item example." src="data:image/png;base64,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" alt="Simulation-based calibration diagnostic for the deterministic known-item example." />
+<p class="caption">
+Simulation-based calibration diagnostic for the deterministic known-item
+example.
+</p>
+</div>
+<!-- END EYEPROCESS ARTICLE VISUALS SBC -->
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

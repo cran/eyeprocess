@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Pupil Measurement Boundaries in Multimodal IRT</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Pupil Measurement Boundaries in Multimodal
+IRT</h1>
+
+
+
+<div id="why-pupil-needs-a-measurement-layer" class="section level2">
+<h2>Why pupil needs a measurement layer</h2>
+<p>The 0.10 development simulator explicitly separates a neutral pupil
+responsivity dimension from nuisance effects of luminance and gaze
+position.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">simulate_multimodal_irt</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">n_person=</span><span class="dv">80</span>, <span class="at">n_item=</span><span class="dv">12</span>, <span class="at">seed=</span><span class="dv">21</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">pupil_luminance=</span><span class="sc">-</span>.<span class="dv">25</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">gaze_x_effect=</span>.<span class="dv">10</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">gaze_y_effect=</span><span class="sc">-</span>.<span class="dv">06</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">summary</span>(sim<span class="sc">$</span>data[<span class="fu">c</span>(<span class="st">&quot;pupil_response&quot;</span>,<span class="st">&quot;luminance_z&quot;</span>,<span class="st">&quot;gaze_x_z&quot;</span>,<span class="st">&quot;gaze_y_z&quot;</span>)])</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;  pupil_response      luminance_z           gaze_x_z         </span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;  Min.   :-3.35320   Min.   :-3.312172   Min.   :-3.8822895  </span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:-0.76977   1st Qu.:-0.601877   1st Qu.:-0.6557865  </span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;  Median : 0.05232   Median : 0.017611   Median : 0.0136808  </span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt;  Mean   :-0.01175   Mean   : 0.007727   Mean   : 0.0009432  </span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.: 0.77131   3rd Qu.: 0.677612   3rd Qu.: 0.6890059  </span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt;  Max.   : 2.85091   Max.   : 3.185114   Max.   : 3.2321063  </span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt;     gaze_y_z        </span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt;  Min.   :-3.140749  </span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:-0.667967  </span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt;  Median :-0.044002  </span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt;  Mean   :-0.004006  </span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.: 0.640364  </span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt;  Max.   : 2.692336</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">plot</span>(sim, <span class="at">type=</span><span class="st">&quot;channel_distributions&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; Warning: Use of `long[[&quot;value&quot;]]` is discouraged.</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; ℹ Use `.data[[&quot;value&quot;]]` instead.</span></span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>The presence of a pupil effect does not establish cognitive load,
+effort, or arousal.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

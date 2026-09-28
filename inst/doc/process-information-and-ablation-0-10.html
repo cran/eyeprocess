@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Process Information and Channel Ablation</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Process Information and Channel
+Ablation</h1>
+
+
+
+<div id="posterior-uncertainty-as-measurement-value" class="section level2">
+<h2>Posterior uncertainty as measurement value</h2>
+<p><code>process_information()</code> compares matched posterior targets
+without assuming that heterogeneous Fisher information components can
+simply be added.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">6000</span>, <span class="at">sd=</span><span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>aug  <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">6000</span>, <span class="at">sd=</span>.<span class="dv">8</span>), <span class="at">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">colnames</span>(base) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(aug) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>info <span class="ot">&lt;-</span> <span class="fu">process_information</span>(base, aug, <span class="at">metric=</span><span class="st">&quot;entropy_reduction&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>info</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; &lt;eye_process_information&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;  target            metric     value baseline_variance augmented_variance</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;       A entropy_reduction 0.2557330          1.036352          0.6214131</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;       B entropy_reduction 0.2717227          1.055327          0.6128745</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;       C entropy_reduction 0.2260618          1.037273          0.6599914</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt;  relative_variance_reduction</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt;                    0.4003841</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt;                    0.4192561</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt;                    0.3637245</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="fu">plot</span>(info)</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; Warning: Use of `d[[&quot;target&quot;]]` is discouraged.</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; ℹ Use `.data[[&quot;target&quot;]]` instead.</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; Warning: Use of `d[[&quot;value&quot;]]` is discouraged.</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; ℹ Use `.data[[&quot;value&quot;]]` instead.</span></span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="channel-ablation" class="section level2">
+<h2>Channel ablation</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">simulate_multimodal_irt</span>(<span class="at">n_person=</span><span class="dv">50</span>,<span class="at">n_item=</span><span class="dv">8</span>,<span class="at">seed=</span><span class="dv">5</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>abl <span class="ot">&lt;-</span> <span class="fu">ablate_multimodal_channels</span>(sim<span class="sc">$</span>measurement)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">names</span>(abl<span class="sc">$</span>scenarios)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;response&quot;               &quot;response+rt&quot;            &quot;response+gaze&quot;         </span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; [4] &quot;response+pupil&quot;         &quot;response+rt+gaze&quot;       &quot;response+rt+pupil&quot;     </span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; [7] &quot;response+gaze+pupil&quot;    &quot;response+rt+gaze+pupil&quot;</span></span></code></pre></div>
+<p>Ablation is an inferential comparison design, not automatically a
+causal counterfactual.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

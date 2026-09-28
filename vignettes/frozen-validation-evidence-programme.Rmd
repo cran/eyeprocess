@@ -1,0 +1,71 @@
+---
+title: "Frozen validation evidence programme"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Frozen validation evidence programme}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(eyeprocess)
+```
+
+Milestone #2 separates **software-validation evidence** from substantive construct validity. A reproducible plan fixes scenario families, sample sizes, missingness, perturbations, replications, and seeds before results are interpreted.
+
+```{r}
+plan <- eyeprocess_validation_plan(
+  sample_size = c(250L, 750L), n_items = c(12L, 24L),
+  missing_rate = c(0, .15), specification = c("correct", "misspecified"),
+  replications = 20L, seed = 20260811L
+)
+head(expand_eyeprocess_validation_plan(plan))
+```
+
+Acceptance criteria are declared as reporting contracts rather than universal scientific thresholds.
+
+```{r}
+rules <- list(
+  rmse = validation_acceptance_rule("rmse", "max", .20),
+  failure = validation_acceptance_rule("failure_rate", "max", .05)
+)
+```
+
+Frozen evidence objects contain integrity hashes and source-commit metadata. A passing release gate means only that the declared software-validation criteria were satisfied.
+
+<!-- BEGIN EYEPROCESS ARTICLE VISUALS FREEZE -->
+
+## Frozen evidence as a visual object
+
+A minimal deterministic freeze demonstrates the provenance-aware graphical interface. The example records software evidence only and should not be interpreted as a validity assessment of a psychological construct.
+
+```{r m2-visual-validation-freeze, fig.width=7, fig.height=4.5, fig.align='center', fig.cap='Illustrative frozen validation-evidence object.'}
+viz_claim <- eyeprocess::eyeprocess_validation_claim_matrix(
+  'C1',
+  'software behaviour is reproducible',
+  'E1',
+  'test',
+  'supported'
+)
+
+viz_freeze <- eyeprocess::freeze_eyeprocess_validation_evidence(
+  design = data.frame(id = 1),
+  recovery = data.frame(x = 1),
+  stress = data.frame(x = 1),
+  reliability = data.frame(x = 1),
+  negative_controls = data.frame(x = 1),
+  claims = viz_claim,
+  provenance = list(commit = 'documentation-example'),
+  source_commit = 'documentation-example'
+)
+
+stopifnot(
+  eyeprocess::verify_eyeprocess_validation_evidence(
+    viz_freeze
+  )
+)
+
+plot(viz_freeze)
+```
+<!-- END EYEPROCESS ARTICLE VISUALS FREEZE -->

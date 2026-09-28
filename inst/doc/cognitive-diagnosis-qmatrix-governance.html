@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Cognitive diagnosis and Q-matrix governance</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Cognitive diagnosis and Q-matrix
+governance</h1>
+
+
+
+<p>The cognitive-diagnosis layer supplies transparent Q-matrix audits,
+attribute-profile enumeration, and deterministic DINA
+ideal-response/probability calculations.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>aud <span class="ot">&lt;-</span> <span class="fu">eyeprocess_cdm_qmatrix_audit</span>(Q)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>aud</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; eyeprocess CDM Q-matrix audit</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt;   items     : 4 </span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt;   attributes: 2 </span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;   empty items: 0 | unmeasured attributes: 0</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>profiles <span class="ot">&lt;-</span> <span class="fu">eyeprocess_cdm_attribute_profiles</span>(<span class="dv">2</span>)[, <span class="fu">c</span>(<span class="st">&quot;A1&quot;</span>,<span class="st">&quot;A2&quot;</span>)]</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>eta <span class="ot">&lt;-</span> <span class="fu">eyeprocess_cdm_dina_ideal_response</span>(Q, profiles)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">eyeprocess_cdm_dina_probability</span>(eta)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; [1,]  0.2  0.2  0.2  0.2</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; [2,]  0.9  0.2  0.2  0.9</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt; [3,]  0.2  0.9  0.2  0.2</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; [4,]  0.9  0.9  0.9  0.9</span></span></code></pre></div>
+<p>These utilities do not replace full cognitive-diagnosis estimation,
+Q-matrix validation, or model comparison.
+<code>fit_eyeprocess_gdina()</code> delegates exact fitting to GDINA and
+gates cleanly when unavailable.</p>
+<p>Primary package source: <a href="https://cran.r-project.org/package=GDINA" class="uri">https://cran.r-project.org/package=GDINA</a>.</p>
+<!-- BEGIN EYEPROCESS ARTICLE VISUALS QMATRIX -->
+<div id="visual-audit" class="section level2">
+<h2>Visual audit</h2>
+<p>A compact deterministic Q-matrix makes the structural audit visible.
+The display concerns declared item-attribute structure and does not by
+itself establish substantive validity.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>viz_Q <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">rownames</span>(viz_Q) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;Item &#39;</span>, <span class="fu">seq_len</span>(<span class="fu">nrow</span>(viz_Q)))</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">colnames</span>(viz_Q) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Attribute 1&#39;</span>, <span class="st">&#39;Attribute 2&#39;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>viz_qmatrix <span class="ot">&lt;-</span> eyeprocess<span class="sc">::</span><span class="fu">eyeprocess_cdm_qmatrix_audit</span>(viz_Q)</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  <span class="fu">inherits</span>(viz_qmatrix, <span class="st">&#39;eye_cdm_qmatrix_audit&#39;</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>)</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="fu">plot</span>(viz_qmatrix)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img role="img" aria-label="Q-matrix structure for a small deterministic cognitive-diagnosis example." src="data:image/png;base64,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" alt="Q-matrix structure for a small deterministic cognitive-diagnosis example." />
+<p class="caption">
+Q-matrix structure for a small deterministic cognitive-diagnosis
+example.
+</p>
+</div>
+<!-- END EYEPROCESS ARTICLE VISUALS QMATRIX -->
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

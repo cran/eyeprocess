@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Validation evidence atlas and software-paper reporting</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Validation evidence atlas and
+software-paper reporting</h1>
+
+
+
+<p>The evidence atlas links claims to executed outputs, tables, figures,
+hashes, provenance, and limitations while preserving the distinction
+between software behavior and substantive validity.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>claims <span class="ot">&lt;-</span> <span class="fu">eyeprocess_validation_claim_matrix</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;C1&quot;</span>,<span class="st">&quot;C2&quot;</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;Scenario expansion is deterministic&quot;</span>, <span class="st">&quot;Exact engines are not silently substituted&quot;</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;E1&quot;</span>,<span class="st">&quot;E2&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>,<span class="st">&quot;engine-contract&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;supported&quot;</span>,<span class="st">&quot;qualified&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>atlas <span class="ot">&lt;-</span> <span class="fu">eyeprocess_validation_evidence_atlas</span>(claims, <span class="at">recovery =</span> <span class="fu">data.frame</span>(<span class="at">id=</span><span class="st">&quot;demo&quot;</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>atlas</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; eyeprocess validation evidence atlas</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;   claims     : 2 </span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;   components : 1 / 8 </span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;   hash       : 8237b9eaf340ec405aa4e3fee3f1a683</span></span></code></pre></div>
+<p><code>freeze_eyeprocess_validation_atlas()</code> creates an
+integrity-checked snapshot.
+<code>write_eyeprocess_validation_report()</code> emits a compact
+Markdown report suitable for archival review. Paper-ready table helpers
+convert recovery, SBC, stress, reliability, negative-control, IRT
+precision, and external-engine status into compact data frames.</p>
+<!-- BEGIN EYEPROCESS ARTICLE VISUALS ATLAS -->
+<div id="visual-evidence-atlas" class="section level2">
+<h2>Visual evidence atlas</h2>
+<p>The next views show how declared claims and evidence are represented
+before and after freezing. They describe evidence organisation and
+provenance, not substantive construct validity.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>viz_claims <span class="ot">&lt;-</span> eyeprocess<span class="sc">::</span><span class="fu">eyeprocess_validation_claim_matrix</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="st">&#39;C1&#39;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="st">&#39;software behaviour is reproducible&#39;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="st">&#39;E1&#39;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="st">&#39;test&#39;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="st">&#39;supported&#39;</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>viz_atlas <span class="ot">&lt;-</span> eyeprocess<span class="sc">::</span><span class="fu">eyeprocess_validation_evidence_atlas</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  viz_claims,</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="at">recovery =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  <span class="fu">inherits</span>(viz_atlas, <span class="st">&#39;eye_validation_evidence_atlas&#39;</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>)</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="fu">plot</span>(viz_atlas)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img role="img" aria-label="Illustrative validation-evidence atlas linking a declared software claim to recorded evidence." src="data:image/png;base64,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" alt="Illustrative validation-evidence atlas linking a declared software claim to recorded evidence." />
+<p class="caption">
+Illustrative validation-evidence atlas linking a declared software claim
+to recorded evidence.
+</p>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>viz_atlas_freeze <span class="ot">&lt;-</span> eyeprocess<span class="sc">::</span><span class="fu">freeze_eyeprocess_validation_atlas</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  viz_atlas</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  eyeprocess<span class="sc">::</span><span class="fu">verify_eyeprocess_validation_atlas</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>    viz_atlas_freeze</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  )</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">plot</span>(viz_atlas_freeze)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img role="img" aria-label="Frozen form of the illustrative validation-evidence atlas." src="data:image/png;base64,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" alt="Frozen form of the illustrative validation-evidence atlas." />
+<p class="caption">
+Frozen form of the illustrative validation-evidence atlas.
+</p>
+</div>
+<!-- END EYEPROCESS ARTICLE VISUALS ATLAS -->
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

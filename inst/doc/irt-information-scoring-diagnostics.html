@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>IRT information, scoring, and diagnostics</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">IRT information, scoring, and
+diagnostics</h1>
+
+
+
+<p>The native IRT layer provides transparent mathematical utilities for
+common dichotomous and polytomous families. Estimation is not silently
+approximated when a specialized external engine is required.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>items <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">item_id =</span> <span class="fu">paste0</span>(<span class="st">&quot;I&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">a =</span> <span class="fu">seq</span>(.<span class="dv">8</span>, <span class="fl">1.5</span>, <span class="at">length.out =</span> <span class="dv">8</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">b =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="at">length.out =</span> <span class="dv">8</span>), <span class="at">c =</span> <span class="dv">0</span>, <span class="at">d =</span> <span class="dv">1</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>info <span class="ot">&lt;-</span> <span class="fu">eyeprocess_irt_test_information</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">by =</span> .<span class="dv">25</span>), items)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">head</span>(info)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;   theta information conditional_sem</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; 1 -3.00   0.4005250        1.580102</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; 2 -2.75   0.4803804        1.442804</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 3 -2.50   0.5724035        1.321749</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; 4 -2.25   0.6771612        1.215217</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; 5 -2.00   0.7948356        1.121660</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; 6 -1.75   0.9251109        1.039688</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="fu">eyeprocess_irt_measurement_precision_profile</span>(info<span class="sc">$</span>theta, items)</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; $curve</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt;    theta information conditional_sem</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; 1  -3.00   0.4005250       1.5801022</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; 2  -2.75   0.4803804       1.4428041</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; 3  -2.50   0.5724035       1.3217486</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; 4  -2.25   0.6771612       1.2152174</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt; 5  -2.00   0.7948356       1.1216603</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; 6  -1.75   0.9251109       1.0396882</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; 7  -1.50   1.0670551       0.9680696</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; 8  -1.25   1.2189945       0.9057308</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; 9  -1.00   1.3783701       0.8517597</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; 10 -0.75   1.5415627       0.8054144</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt; 11 -0.50   1.7036702       0.7661384</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt; 12 -0.25   1.8582366       0.7335834</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">#&gt; 13  0.00   1.9969649       0.7076439</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co">#&gt; 14  0.25   2.1095336       0.6885045</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="co">#&gt; 15  0.50   2.1837780       0.6766993</span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co">#&gt; 16  0.75   2.2066812       0.6731784</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="co">#&gt; 17  1.00   2.1666781       0.6793644</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="co">#&gt; 18  1.25   2.0573861       0.6971755</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co">#&gt; 19  1.50   1.8817331       0.7289890</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">#&gt; 20  1.75   1.6540561       0.7775438</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">#&gt; 21  2.00   1.3978026       0.8458183</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">#&gt; 22  2.25   1.1391150       0.9369496</span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co">#&gt; 23  2.50   0.8997522       1.0542377</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="co">#&gt; 24  2.75   0.6930181       1.2012342</span></span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co">#&gt; 25  3.00   0.5236718       1.3818802</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co">#&gt; $target</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">#&gt; [1] -2  2</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co">#&gt; $area</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="co">#&gt; [1] 6.761533</span></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="co">#&gt; $min_information</span></span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="co">#&gt; [1] 0.7948356</span></span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a><span class="co">#&gt; $max_sem</span></span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="co">#&gt; [1] 1.12166</span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;class&quot;)</span></span>
+<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a><span class="co">#&gt; [1] &quot;eye_irt_precision_profile&quot;</span></span></code></pre></div>
+<p>The module also supplies EAP/MAP/MLE score utilities, conditional
+uncertainty, bank targeting, residual fit, Q3/local-dependence
+summaries, and Infit/Outfit-style diagnostics. Person-fit quantities are
+model diagnostics; they must not be converted into claims about
+cheating, disengagement, diagnosis, or mental state.</p>
+<p>Stan’s current User Guide emphasizes explicit identification for IRT
+models and sparse encodings when response matrices are incomplete. These
+principles motivate <code>eyeprocess_irt_identification_audit()</code>
+and <code>eyeprocess_irt_sparse_design_audit()</code>.</p>
+<p>Primary source: <a href="https://mc-stan.org/docs/stan-users-guide/item-response-models.html" class="uri">https://mc-stan.org/docs/stan-users-guide/item-response-models.html</a>.</p>
+<!-- BEGIN EYEPROCESS ARTICLE VISUALS IRT INFORMATION -->
+<div id="visual-diagnostics" class="section level2">
+<h2>Visual diagnostics</h2>
+<p>The following deterministic example illustrates two native diagnostic
+views. These figures demonstrate software behaviour for a synthetic item
+bank; they are not empirical evidence of construct validity.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>viz_items <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">item_id =</span> <span class="fu">paste0</span>(<span class="st">&#39;I&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">seq</span>(<span class="fl">0.8</span>, <span class="fl">1.5</span>, <span class="at">length.out =</span> <span class="dv">8</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">b =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="at">length.out =</span> <span class="dv">8</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">0</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">d =</span> <span class="dv">1</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>viz_theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">by =</span> <span class="fl">0.25</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>viz_information <span class="ot">&lt;-</span> eyeprocess<span class="sc">::</span><span class="fu">eyeprocess_irt_test_information</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  viz_theta,</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  viz_items</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>)</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>  <span class="fu">inherits</span>(viz_information, <span class="st">&#39;eye_irt_information_profile&#39;</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>)</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="fu">plot</span>(viz_information)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img role="img" aria-label="Test information across the latent-trait continuum for a deterministic illustrative item bank." src="data:image/png;base64,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" alt="Test information across the latent-trait continuum for a deterministic illustrative item bank." />
+<p class="caption">
+Test information across the latent-trait continuum for a deterministic
+illustrative item bank.
+</p>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>viz_sim <span class="ot">&lt;-</span> eyeprocess<span class="sc">::</span><span class="fu">simulate_eyeprocess_irt_binary</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="dv">80</span><span class="dt">L</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  viz_items,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">missing_rate =</span> <span class="fl">0.10</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">12</span><span class="dt">L</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>viz_q3 <span class="ot">&lt;-</span> eyeprocess<span class="sc">::</span><span class="fu">eyeprocess_irt_q3</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  viz_sim<span class="sc">$</span>responses,</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  viz_sim<span class="sc">$</span>probabilities</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  <span class="fu">inherits</span>(viz_q3, <span class="st">&#39;eye_irt_q3_matrix&#39;</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="fu">plot</span>(viz_q3)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img role="img" aria-label="Residual Q3 dependence matrix for a deterministic simulated response set." src="data:image/png;base64,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" alt="Residual Q3 dependence matrix for a deterministic simulated response set." />
+<p class="caption">
+Residual Q3 dependence matrix for a deterministic simulated response
+set.
+</p>
+</div>
+<!-- END EYEPROCESS ARTICLE VISUALS IRT INFORMATION -->
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

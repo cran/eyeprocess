@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Multiple-Response Items, Revisiting, and Local Dependence</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Multiple-Response Items, Revisiting, and
+Local Dependence</h1>
+
+
+
+<div id="why-preserve-the-response-process" class="section level1">
+<h1>Why preserve the response process?</h1>
+<p>Multiple-response items can contain substantially more information
+than a single total or partial-credit score. A participant who selects
+<code>A + C</code> and a participant who selects <code>B + D</code> may
+receive the same conventional score while showing very different
+option-level response and visual-inspection patterns. The 0.7
+development layer therefore preserves response combinations before any
+scoring rule is imposed.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">participant_id =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;p1&quot;</span>, <span class="st">&quot;p2&quot;</span>), <span class="at">each =</span> <span class="dv">4</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">item_id =</span> <span class="st">&quot;item1&quot;</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">option_id =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>), <span class="dv">2</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">selected =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>               <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">encode_response_combinations</span>(long)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;   participant_id item_id response_combination n_selected</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 1             p1   item1                  A|C          2</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; 2             p2   item1                  B|D          2</span></span></code></pre></div>
+</div>
+<div id="option-level-process-evidence" class="section level1">
+<h1>Option-level process evidence</h1>
+<p>When option AOIs are available, the analysis can retain
+fixation/dwell evidence at exactly the same option level as selection.
+<code>fit_multiple_response_process_irt()</code> provides a transparent
+crossed-logistic reference model and an explicit external engine
+gate.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">fit_multiple_response_process_irt</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  option_trials,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">selected =</span> <span class="st">&quot;selected&quot;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">theta =</span> <span class="st">&quot;theta&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">item =</span> <span class="st">&quot;item_id&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">option =</span> <span class="st">&quot;option_id&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="at">gaze =</span> <span class="st">&quot;option_dwell_ms&quot;</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="at">engine =</span> <span class="st">&quot;reference&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>)</span></code></pre></div>
+<p>The reference model is <strong>not</strong> the MRM/MRM-LD likelihood
+of Zhou and Guo. It is provided to establish the data contract, generate
+empirical diagnostics, and support validation before an exact
+implementation is connected. For a validated exact implementation, use
+<code>engine = &quot;external&quot;</code> and retain engine/version
+provenance.</p>
+</div>
+<div id="local-dependence-must-be-checked" class="section level1">
+<h1>Local dependence must be checked</h1>
+<p>Inter-option local dependence can invalidate an analysis that treats
+option responses as conditionally independent. If residuals from the
+response model are available,
+<code>audit_process_local_dependence()</code> provides a Q3-style
+pairwise diagnostic. An aligned process-residual matrix can be supplied
+to ask whether response and gaze residual dependence show the same pair
+structure.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">400</span>), <span class="at">ncol =</span> <span class="dv">4</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>            <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">paste0</span>(<span class="st">&quot;option&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)))</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>p <span class="ot">&lt;-</span> r <span class="sc">+</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">400</span>, <span class="at">sd =</span> .<span class="dv">3</span>), <span class="at">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>ld <span class="ot">&lt;-</span> <span class="fu">audit_process_local_dependence</span>(r, p)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">head</span>(ld<span class="sc">$</span>pairs)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;     first  second response_residual_correlation response_flag</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 1 option1 option2                 -0.0009943199         FALSE</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 2 option1 option3                  0.0183821868         FALSE</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 3 option2 option3                 -0.0495362135         FALSE</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; 4 option1 option4                 -0.0504370615         FALSE</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; 5 option2 option4                 -0.0584224680         FALSE</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; 6 option3 option4                  0.1107803403         FALSE</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt;   process_residual_correlation process_flag concordant_direction</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; 1                  0.006688086        FALSE                FALSE</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; 2                  0.055551769        FALSE                 TRUE</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; 3                 -0.083047142        FALSE                 TRUE</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; 4                 -0.013512184        FALSE                 TRUE</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; 5                 -0.073464541        FALSE                 TRUE</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; 6                  0.030193207        FALSE                 TRUE</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="fu">plot</span>(ld)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>The threshold is descriptive. It is not a universal significance
+cutoff and must be interpreted with the fitted model, item design,
+multiplicity, and a simulation-calibrated null distribution.</p>
+</div>
+<div id="revisiting-as-collateral-evidence-in-cognitive-diagnosis" class="section level1">
+<h1>Revisiting as collateral evidence in cognitive diagnosis</h1>
+<p>Current process-data work also shows that response time and item
+revisiting can be modeled alongside cognitive-diagnosis responses. The
+eyeprocess adapter keeps mastery semantics anchored to the supplied
+Q-matrix and uses revisiting, RT, and optional gaze variables as
+collateral process evidence.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>cdm <span class="ot">&lt;-</span> <span class="fu">fit_revisit_process_cdm</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">response_matrix =</span> Y,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">q_matrix =</span> Q,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">process_data =</span> process_log,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">person_id =</span> <span class="st">&quot;participant_id&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">revisited =</span> <span class="st">&quot;revisit_count&quot;</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">rt =</span> <span class="st">&quot;response_time_ms&quot;</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">gaze =</span> <span class="fu">c</span>(<span class="st">&quot;stem_dwell_ms&quot;</span>, <span class="st">&quot;option_transition_count&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>)</span></code></pre></div>
+<p>A process association must not be interpreted as a diagnosis of
+motivation, misconduct, or cognitive state. The appropriate scientific
+question is whether the process channel improves validated measurement
+or classification under pre-specified external/grouped validation.</p>
+</div>
+<div id="validation-requirements" class="section level1">
+<h1>Validation requirements</h1>
+<p>Before either model family is promoted, include at least
+response/attribute recovery, local-dependence misspecification, option
+sparsity, process-channel ablation, negative controls, and
+held-person/item/session/device validation. Use
+<code>irt_validation_spec()</code>,
+<code>stress_test_local_dependence()</code>,
+<code>process_channel_ablation()</code>, and
+<code>grade_model_evidence()</code> to retain a common evidence
+record.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

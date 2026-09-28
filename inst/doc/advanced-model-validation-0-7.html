@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Validation Before Promotion: Recovery, SBC, PPC, and Transportability</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Validation Before Promotion: Recovery, SBC,
+PPC, and Transportability</h1>
+
+
+
+<div id="a-common-validation-contract" class="section level1">
+<h1>A common validation contract</h1>
+<p>Every advanced model should answer the same questions before
+promotion:</p>
+<ul>
+<li>can its parameters be recovered under its own generator?</li>
+<li>how biased and noisy are the estimates?</li>
+<li>do intervals cover at their nominal rate?</li>
+<li>how often does estimation fail?</li>
+<li>are parameters empirically identifiable?</li>
+<li>is Bayesian computation calibrated?</li>
+<li>can replicated data reproduce scientifically important
+features?</li>
+<li>what happens under misspecification and preprocessing changes?</li>
+<li>does measurement transport to held-out devices, sessions, sites, and
+items?</li>
+<li>does the process channel add out-of-sample information beyond
+conventional response/RT information?</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>spec <span class="ot">&lt;-</span> eyeprocess<span class="sc">::</span><span class="fu">irt_validation_spec</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">model_id =</span> <span class="st">&quot;joint_gaze_rt&quot;</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">replications =</span> <span class="dv">500</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">&quot;ability&quot;</span>, <span class="st">&quot;speed&quot;</span>, <span class="st">&quot;engagement&quot;</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">grouped_validation =</span> <span class="fu">c</span>(<span class="st">&quot;device&quot;</span>, <span class="st">&quot;session&quot;</span>, <span class="st">&quot;site&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>spec</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; eyeprocess IRT validation specification</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;   model: joint_gaze_rt </span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;   replications: 500 </span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;   metrics: bias, rmse, coverage, interval_width, convergence </span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt;   grouped validation: device, session, site</span></span></code></pre></div>
+</div>
+<div id="recovery-table" class="section level1">
+<h1>Recovery table</h1>
+<p>The canonical recovery table has one row per replicate/parameter and
+columns <code>replicate</code>, <code>parameter</code>,
+<code>truth</code>, <code>estimate</code>, and optionally
+<code>lower</code>, <code>upper</code>, <code>converged</code>,
+<code>scenario</code>, <code>engine</code>, and
+<code>failure_type</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>summary <span class="ot">&lt;-</span> <span class="fu">summarize_parameter_recovery</span>(recovery)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">audit_bias</span>(summary, <span class="at">threshold =</span> .<span class="dv">10</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">audit_rmse</span>(summary, <span class="at">threshold =</span> .<span class="dv">30</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">audit_coverage</span>(summary, <span class="at">minimum =</span> .<span class="dv">90</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">audit_interval_width</span>(summary)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">audit_convergence</span>(recovery, <span class="at">minimum =</span> .<span class="dv">95</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">audit_identifiability</span>(recovery)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">validation_mcse</span>(recovery, <span class="st">&quot;coverage&quot;</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">recommended_validation_replications</span>(<span class="at">target_mcse =</span> .<span class="dv">01</span>, <span class="at">metric =</span> <span class="st">&quot;coverage&quot;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">plot</span>(summary)</span></code></pre></div>
+</div>
+<div id="prior-sbc" class="section level1">
+<h1>Prior SBC</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sbc <span class="ot">&lt;-</span> <span class="fu">run_sbc</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">simulator =</span> <span class="cf">function</span>(r) <span class="fu">simulate_one_dataset</span>(r),</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">fitter =</span> <span class="cf">function</span>(dat) <span class="fu">fit_bayesian_model</span>(dat),</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">posterior_draws =</span> <span class="cf">function</span>(fit) <span class="fu">as.matrix</span>(fit<span class="sc">$</span>draws),</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">replications =</span> <span class="dv">250</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">audit_sbc</span>(sbc)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">plot</span>(sbc, <span class="at">parameter =</span> <span class="st">&quot;ability_sd&quot;</span>)</span></code></pre></div>
+<p>SBC is an inference-algorithm validation. It does not establish
+empirical model fit or construct validity.</p>
+</div>
+<div id="posterior-sbc" class="section level1">
+<h1>Posterior SBC</h1>
+<p>Posterior SBC addresses a different question: whether inference is
+calibrated in the region relevant <strong>conditional on the observed
+data</strong>. Because the correct conditional self-consistency
+experiment is model-specific, eyeprocess requires an explicit callback
+rather than pretending ordinary SBC is posterior SBC.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>contract <span class="ot">&lt;-</span> <span class="fu">posterior_sbc_contract</span>(<span class="cf">function</span>(replicate, observed_data) {</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="co"># Model-specific implementation following the posterior-SBC construction.</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="co"># Must return the simulated truth and posterior draws from the corresponding</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="co"># conditional self-consistency experiment.</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">truth =</span> truth, <span class="at">draws =</span> draws)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>})</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>psbc <span class="ot">&lt;-</span> <span class="fu">run_posterior_sbc</span>(observed_data, contract, <span class="at">replications =</span> <span class="dv">100</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="fu">audit_sbc</span>(psbc)</span></code></pre></div>
+</div>
+<div id="posterior-predictive-checks" class="section level1">
+<h1>Posterior predictive checks</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">posterior_predictive_discrepancies</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">observed =</span> observed_fixations,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">replicated =</span> replicated_fixations,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">discrepancies =</span> <span class="fu">list</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    <span class="at">mean =</span> mean,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    <span class="at">sd =</span> sd,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    <span class="at">zero_rate =</span> <span class="cf">function</span>(x) <span class="fu">mean</span>(x <span class="sc">==</span> <span class="dv">0</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    <span class="at">p95 =</span> <span class="cf">function</span>(x) <span class="fu">unname</span>(<span class="fu">quantile</span>(x, .<span class="dv">95</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  )</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>)</span></code></pre></div>
+<p>Choose discrepancies that could falsify the scientific use of the
+model: tail fixation counts, omission rate, transition entropy, pupil
+peak timing, response accuracy by item difficulty, and other
+substantively meaningful summaries.</p>
+</div>
+<div id="misspecification" class="section level1">
+<h1>Misspecification</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">stress_test_latent_distribution</span>(runner)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">stress_test_local_dependence</span>(runner)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">stress_test_speededness</span>(runner)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">stress_test_missingness</span>(runner)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">stress_test_preprocessing</span>(runner, <span class="at">variants =</span> <span class="fu">c</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="st">&quot;default&quot;</span>, <span class="st">&quot;strict_validity&quot;</span>, <span class="st">&quot;alternate_fixation_detector&quot;</span>, <span class="st">&quot;alternate_pupil_filter&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>))</span></code></pre></div>
+<p>The <code>runner</code> owns data generation and fitting; the
+framework records scenario, replicate, results, and classified
+failures.</p>
+</div>
+<div id="external-and-grouped-validation" class="section level1">
+<h1>External and grouped validation</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">external_validate_irt</span>(train, external, fitter, predictor, scorer)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">leave_device_out_validation</span>(data, <span class="st">&quot;device&quot;</span>, fitter, predictor, scorer)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">leave_session_out_validation</span>(data, <span class="st">&quot;session&quot;</span>, fitter, predictor, scorer)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">leave_site_out_validation</span>(data, <span class="st">&quot;site&quot;</span>, fitter, predictor, scorer)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">leave_item_out_validation</span>(data, <span class="st">&quot;item_id&quot;</span>, fitter, predictor, scorer)</span></code></pre></div>
+<p>Then quantify transportability rather than reporting only a pooled
+score:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">audit_measurement_transportability</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  held_out_results,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">higher_is_better =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">max_range =</span> .<span class="dv">15</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="incremental-information-and-negative-controls" class="section level1">
+<h1>Incremental information and negative controls</h1>
+<p>A process channel should survive a stricter test than in-sample
+significance.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>inc <span class="ot">&lt;-</span> <span class="fu">audit_channel_incremental_information</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  data,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">fold =</span> <span class="st">&quot;participant_fold&quot;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">baseline_fitter =</span> fit_response_rt,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">process_fitter =</span> fit_response_rt_gaze,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">predictor =</span> predict_trait,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="at">scorer =</span> trait_rmse,</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="at">higher_is_better =</span> <span class="cn">FALSE</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>)</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="fu">plot</span>(inc)</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">negative_control_process_test</span>(</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>  data,</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>  <span class="at">process_columns =</span> <span class="fu">c</span>(<span class="st">&quot;fixation_count&quot;</span>, <span class="st">&quot;evidence_dwell&quot;</span>),</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>  <span class="at">within =</span> <span class="fu">c</span>(<span class="st">&quot;person_id&quot;</span>, <span class="st">&quot;item_id&quot;</span>),</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>  <span class="at">evaluator =</span> full_crossvalidated_score,</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>  <span class="at">permutations =</span> <span class="dv">250</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>  <span class="at">higher_is_better =</span> <span class="cn">TRUE</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>)</span></code></pre></div>
+<p>This guards against adding gaze merely because a high-dimensional
+channel can improve training fit.</p>
+</div>
+<div id="process-dependent-discrimination" class="section level1">
+<h1>Process-dependent discrimination</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">process_dependent_discrimination_audit</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  data,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">response =</span> <span class="st">&quot;correct&quot;</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="at">theta =</span> <span class="st">&quot;theta&quot;</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="at">process =</span> <span class="st">&quot;rt_ms&quot;</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="at">person =</span> <span class="st">&quot;person_id&quot;</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="at">item =</span> <span class="st">&quot;item_id&quot;</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="fu">plot</span>(pd)</span></code></pre></div>
+<p>The diagnostic asks whether effective response discrimination varies
+with the person-by-item process residual. It should be described as an
+association unless a design identifies a causal mechanism.</p>
+</div>
+<div id="evidence-grade" class="section level1">
+<h1>Evidence grade</h1>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">grade_model_evidence</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="at">recovery =</span> recovery,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="at">spec =</span> spec,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="at">external_validation =</span> held_out_results,</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">sbc =</span> sbc,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="at">ppc =</span> ppc,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="at">semantic_roundtrip =</span> roundtrip</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>)</span></code></pre></div>
+<p>The grade is a governance summary of supplied evidence, not a
+substitute for construct validity or independent replication.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
