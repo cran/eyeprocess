@@ -2,6 +2,16 @@
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
 
 ## -----------------------------------------------------------------------------
+# install.packages("eyeprocess")
+
+## -----------------------------------------------------------------------------
+# install.packages("remotes")
+# remotes::install_github("stefanosbalaskas/eyeprocess", ref = "v0.12.0")
+
+## -----------------------------------------------------------------------------
+# remotes::install_github("stefanosbalaskas/eyeprocess")
+
+## -----------------------------------------------------------------------------
 # library(eyeprocess)
 # 
 # x <- simulate_eye_dataset(n_person = 20, n_item = 8, seed = 42)

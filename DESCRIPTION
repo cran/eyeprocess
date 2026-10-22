@@ -2,7 +2,7 @@ Package: eyeprocess
 Type: Package
 Title: Harmonize Eye-Tracking, Pupillometry, Biometrics, and
         Psychometric Process Data
-Version: 0.11.1
+Version: 0.12.1
 Authors@R: c( person("Stefanos", "Balaskas", role = c("aut", "cre"), email = "s.balaskas@ac.upatras.gr", comment =
     c(ORCID = "0000-0003-2444-9796")) )
 Description: Provides an extensible, vendor-neutral framework for importing, validating, harmonizing, transforming,
@@ -21,7 +21,8 @@ Description: Provides an extensible, vendor-neutral framework for importing, val
     engines, and a fully synthetic multimodal benchmark for reproducibility testing. The measurement-intelligence
     programme adds probabilistic and compositional area of interest (AOI) analysis, measurement-uncertainty propagation,
     calibration and device-transportability audits, process reliability, phase-amplitude pupil registration,
-    informative-missingness sensitivity, temporal and spatial process models, item-bank decision optimization, fairness
+    informative-missingness sensitivity, right-censored gaze-latency survival analysis, temporal and spatial process models,
+    item-bank decision optimization, fairness
     monitoring, conditional process reference distributions, and evidence-provenance graphs.
 License: MIT + file LICENSE
 URL: https://stefanosbalaskas.github.io/eyeprocess/,
@@ -34,7 +35,7 @@ Suggests: brms, ggplot2, jsonlite, knitr, lme4, LNIRT, mirt, rmarkdown,
         TAM, arrow, diffIRT, GDINA, OpenMx, TraMineR, testthat (>=
         3.0.0), callr, cmdstanr, eyetrackingR, future, future.apply,
         openssl, PupillometryR, rtdists, seqHMM, LSMjml, MASS, mgcv,
-        nnet, survival, eRm, FactoMineR, mice, missForest, plm,
+        nnet, survival, coxme, eRm, FactoMineR, mice, missForest, plm,
         psychotree, ranger, robfilter, tidyLPA, loo, posterior,
         targets, equateIRT, catR, mirtCAT
 Additional_repositories: https://stan-dev.r-universe.dev
@@ -42,9 +43,9 @@ VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2026-09-13 10:23:23 UTC; Stefanos-PC
+Packaged: 2026-10-22 10:34:06 UTC; runner
 Author: Stefanos Balaskas [aut, cre] (ORCID:
     <https://orcid.org/0000-0003-2444-9796>)
 Maintainer: Stefanos Balaskas <s.balaskas@ac.upatras.gr>
 Repository: CRAN
-Date/Publication: 2026-09-28 09:30:08 UTC
+Date/Publication: 2026-10-22 11:40:02 UTC

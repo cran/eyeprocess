@@ -345,45 +345,62 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 event, response, and biometric streams without erasing their source
 semantics. The core object is a relational <code>eye_dataset</code>, not
 a single wide data frame.</p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>For the CRAN release (<strong>0.11.1</strong>, published 28 September
+2026):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;eyeprocess&quot;</span>)</span></code></pre></div>
+<p>The canonical CRAN record is <a href="https://CRAN.R-project.org/package=eyeprocess" class="uri">https://CRAN.R-project.org/package=eyeprocess</a> and the
+package DOI is <a href="https://doi.org/10.32614/CRAN.package.eyeprocess" class="uri">https://doi.org/10.32614/CRAN.package.eyeprocess</a>.</p>
+<p>The GitHub stable release is currently newer than CRAN. Install
+<strong>v0.12.0</strong> explicitly when that release line is
+required:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;stefanosbalaskas/eyeprocess&quot;</span>, <span class="at">ref =</span> <span class="st">&quot;v0.12.0&quot;</span>)</span></code></pre></div>
+<p>For the current <strong>0.12.0.9000</strong> development branch:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;stefanosbalaskas/eyeprocess&quot;</span>)</span></code></pre></div>
+<p>Always record the installed package version in reproducible reports
+with <code>packageVersion(&quot;eyeprocess&quot;)</code>.</p>
+</div>
 <div id="simulate-a-complete-project" class="section level2">
 <h2>Simulate a complete project</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(eyeprocess)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">simulate_eye_dataset</span>(<span class="at">n_person =</span> <span class="dv">20</span>, <span class="at">n_item =</span> <span class="dv">8</span>, <span class="at">seed =</span> <span class="dv">42</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>x</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">summary</span>(x)</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">validate_eye_dataset</span>(x)</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">provenance_manifest</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(eyeprocess)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">simulate_eye_dataset</span>(<span class="at">n_person =</span> <span class="dv">20</span>, <span class="at">n_item =</span> <span class="dv">8</span>, <span class="at">seed =</span> <span class="dv">42</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>x</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">summary</span>(x)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">validate_eye_dataset</span>(x)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">provenance_manifest</span>(x)</span></code></pre></div>
 </div>
 <div id="standard-workflow" class="section level2">
 <h2>Standard workflow</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">preprocess_spec</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">gaze_filter =</span> <span class="st">&quot;median&quot;</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">pupil_interpolation =</span> <span class="st">&quot;linear&quot;</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">pupil_filter =</span> <span class="st">&quot;median&quot;</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">fixation_algorithm =</span> <span class="st">&quot;ivt&quot;</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>)</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">preprocess_eye</span>(x, spec)</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">build_aoi_visits</span>(x)</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">derive_all_features</span>(x)</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">analysis_readiness</span>(x)</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="fu">feature_dictionary</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">preprocess_spec</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">gaze_filter =</span> <span class="st">&quot;median&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">pupil_interpolation =</span> <span class="st">&quot;linear&quot;</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">pupil_filter =</span> <span class="st">&quot;median&quot;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">fixation_algorithm =</span> <span class="st">&quot;ivt&quot;</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">preprocess_eye</span>(x, spec)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">build_aoi_visits</span>(x)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">derive_all_features</span>(x)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">analysis_readiness</span>(x)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="fu">feature_dictionary</span>(x)</span></code></pre></div>
 </div>
 <div id="inspect-and-visualize" class="section level2">
 <h2>Inspect and visualize</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>trial <span class="ot">&lt;-</span> x<span class="sc">$</span>intervals<span class="sc">$</span>trial_id[<span class="dv">1</span>]</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">plot_eye_overview</span>(x)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">plot_scanpath</span>(x, <span class="at">trial_id =</span> trial)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">plot_pupil_timeseries</span>(x, <span class="at">trial_id =</span> trial)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">plot_transition_matrix</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>trial <span class="ot">&lt;-</span> x<span class="sc">$</span>intervals<span class="sc">$</span>trial_id[<span class="dv">1</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">plot_eye_overview</span>(x)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">plot_scanpath</span>(x, <span class="at">trial_id =</span> trial)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">plot_pupil_timeseries</span>(x, <span class="at">trial_id =</span> trial)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">plot_transition_matrix</span>(x)</span></code></pre></div>
 </div>
 <div id="persist-the-canonical-representation" class="section level2">
 <h2>Persist the canonical representation</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">write_eye_dataset</span>(x, <span class="st">&quot;analysis/eye-dataset.rds&quot;</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">export_canonical</span>(x, <span class="st">&quot;analysis/canonical-folder&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">report_eye_dataset</span>(x, <span class="st">&quot;analysis/eyeprocess-report.md&quot;</span>, <span class="at">include_plots =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">write_eye_dataset</span>(x, <span class="st">&quot;analysis/eye-dataset.rds&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">export_canonical</span>(x, <span class="st">&quot;analysis/canonical-folder&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">report_eye_dataset</span>(x, <span class="st">&quot;analysis/eyeprocess-report.md&quot;</span>, <span class="at">include_plots =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 
 

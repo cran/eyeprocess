@@ -4,9 +4,9 @@
 
 `eyeprocess` transforms heterogeneous eye-tracking, pupillometry, behavioural, and biometric exports into validated, analysis-ready process data. It combines vendor-neutral harmonization with first-class Gazepoint support, explicit quality and provenance controls, gaze/AOI/scanpath analysis, pupillometry and biometric workflows, interoperability, and psychometric/process modelling.
 
-**Current formal release:** **0.11.1**
+**Release channels:** CRAN **0.11.1** (published 2026-09-28) · GitHub stable **0.12.0** · development **0.12.0.9000**
 
-[Website](https://stefanosbalaskas.github.io/eyeprocess/) · [Reference](https://stefanosbalaskas.github.io/eyeprocess/reference/index.html) · [Articles](https://stefanosbalaskas.github.io/eyeprocess/articles/index.html) · [GitHub](https://github.com/stefanosbalaskas/eyeprocess) · [Releases](https://github.com/stefanosbalaskas/eyeprocess/releases)
+[Website](https://stefanosbalaskas.github.io/eyeprocess/) · [CRAN](https://CRAN.R-project.org/package=eyeprocess) · [Reference](https://stefanosbalaskas.github.io/eyeprocess/reference/index.html) · [Articles](https://stefanosbalaskas.github.io/eyeprocess/articles/index.html) · [GitHub](https://github.com/stefanosbalaskas/eyeprocess) · [Releases](https://github.com/stefanosbalaskas/eyeprocess/releases)
 
 ## What eyeprocess provides
 
@@ -15,9 +15,34 @@
 | Import and harmonization | Vendor-aware readers, generic mappings, canonical schemas, explicit timebase and coordinate handling |
 | Validation and provenance | Source inspection, schema coverage, quality audits, source fingerprints, validation corpora, provenance manifests |
 | Gaze and AOI analysis | Trial construction, AOI registration and assignment, fixation summaries, scanpaths, transitions, visual diagnostics |
+| Censored gaze latency | Survival-ready event/censor tables, Kaplan-Meier curves, clustered/frailty Cox, Weibull/log-normal AFT, diagnostics and sensitivity |
 | Pupil and biometrics | Pupil preprocessing, binocular handling, physiological synchronization, quality-aware feature derivation |
 | Process and psychometric modelling | IRT, response-time models, multimodal process measurement, validation and sensitivity infrastructure |
 | Interoperability and storage | Eye-Tracking-BIDS, Arrow/Parquet workflows, conversion bridges, auditable storage contracts |
+
+## Event-detector multiverse and inference robustness
+
+The development surface includes a vendor-neutral detector-sensitivity workflow that carries event-detection uncertainty all the way to the scientific model:
+
+**raw gaze → detector → events → AOIs → derived features → identical model → robustness report**
+
+Key interfaces include `define_event_detector_spec()`, `run_detector_multiverse()`, `match_detected_events()`, `propagate_detector_to_features()`, `run_detector_inference_multiverse()`, and `report_detector_multiverse()`.
+
+The workflow supports I-VT, I-DT, a transparently labelled adaptive-velocity reference detector, a REMoDNaV command-line bridge, external detector callbacks, and vendor-supplied events. It retains zero-event trials, never converts all-missing gaze to zero dwell, errors on ambiguous AOI membership unless a rule is chosen explicitly, requires an explicit model engine, and keeps non-converged/failed branches visible.
+
+See the [Event-Detector Multiverse article](https://stefanosbalaskas.github.io/eyeprocess/articles/event-detector-multiverse.html) and the [detector-multiverse reference section](https://stefanosbalaskas.github.io/eyeprocess/reference/index.html#event-detector-multiverse-and-inference-robustness).
+
+## AOI perturbation, uncertainty, and reporting
+
+AOI boundaries are treated as an **analytical specification** rather than a fixed truth. The AOI robustness workflow can dilate, erode, translate, jitter, and anisotropically expand declared geometry in pixels or degrees of visual angle; remap samples/fixations with explicit ambiguity and missingness; recompute complete AOI feature cells; propagate the same analyst-specified model; retain failed/non-converged branches; and summarize assignment, coefficient, interval, convergence, and model-`N` stability.
+
+The website now provides a complete route from planning to reviewer-ready evidence:
+
+- [AOI Perturbation and Uncertainty Analysis](https://stefanosbalaskas.github.io/eyeprocess/articles/aoi-perturbation-uncertainty.html) — worked synthetic workflow, four plot families, interpretation, failure handling, and limitations.
+- [AOI Sensitivity Analysis Plan and Reporting Template](https://stefanosbalaskas.github.io/eyeprocess/articles/aoi-sensitivity-analysis-plan.html) — prespecify geometry, perturbation envelope, units, denominator rules, model, and amendment policy.
+- [AOI Robustness Reporting Bundle](https://stefanosbalaskas.github.io/eyeprocess/articles/aoi-reporting-bundle.html) — package branch audits, assignment/model evidence, failures, provenance, report text, figures, and optional file manifests for manuscripts or reviewer responses.
+
+Core functions include `create_aoi_perturbation_grid()`, `run_aoi_sensitivity_analysis()`, `estimate_aoi_assignment_stability()`, `assess_aoi_inference_stability()`, `report_aoi_sensitivity()`, and the four AOI plotting functions. Robustness frequencies are descriptive sensitivity summaries, not probabilities that an AOI definition or scientific conclusion is true.
 
 ## September 2026 measurement-accountability additions
 
@@ -27,7 +52,37 @@ The current development branch adds three conservative diagnostics that make tim
 - `event_marker_qc()` audits whether independent channel offsets corroborate a nominal event and reports consensus offset and uncertainty. It is event-plausibility QC only: it does **not** synchronize clocks, correct drift, or modify timestamps.
 - `validation_ladder()` separates acquisition QC, analytical QC, construct checking, within-person evidence, and held-out-person generalization. A generalization claim cannot be marked supported without held-out-person validation.
 
+The development branch also adds [censored gaze-latency survival analysis](https://stefanosbalaskas.github.io/eyeprocess/articles/gaze-survival-analysis.html), retaining valid never-inspected trials as right-censored observations and distinguishing clustered Cox from latent participant frailty. A companion [evidence-verification worked example](https://stefanosbalaskas.github.io/eyeprocess/articles/gaze-survival-verification-example.html) demonstrates time to first source/evidence AOI entry with explicit censoring, diagnostics, sensitivity models, and reporting. Before freezing an analysis, use the [survival reproducibility checklist](https://stefanosbalaskas.github.io/eyeprocess/articles/gaze-survival-reproducibility-checklist.html).
+
 See the [Measurement accountability article](https://stefanosbalaskas.github.io/eyeprocess/articles/measurement-accountability-0-11.html) and the [measurement-accountability reference section](https://stefanosbalaskas.github.io/eyeprocess/reference/index.html#measurement-accountability-diagnostics-0-11).
+
+## Standardized spatial data quality
+
+The development branch adds a vendor-neutral data-quality subsystem for target-referenced **accuracy**, RMS sample-to-sample and spatial-SD **precision**, **BCEA**, realized sampling behavior, and **data loss**. The canonical report keeps these dimensions separate, records metric-specific units and provenance, and treats thresholds as review rules rather than automatic exclusions.
+
+```r
+validation <- simulate_gaze_quality_calibration(samples_per_target = 8)
+
+quality <- create_gaze_quality_report(
+  validation,
+  by = c("profile", "target_id"),
+  valid = "valid",
+  missing_reason = "missing_reason",
+  nominal_sampling_hz = 60
+)
+
+report_gaze_quality(quality)
+```
+
+The synthetic validation profiles deliberately separate accuracy, precision, irregular sampling, and missingness. Timing diagnostics distinguish long observed intervals from the estimated number of nominal samples represented by those gaps. See the [Standardized Data Quality guide](https://stefanosbalaskas.github.io/eyeprocess/articles/standardized-data-quality.html) and the [Data Quality plot gallery and reporting clinic](https://stefanosbalaskas.github.io/eyeprocess/articles/data-quality-plot-gallery.html).
+
+## September 2026 trial-level mediation preparation
+
+The current development branch also adds a vendor-neutral preparation contract for repeated-measures mediation with gaze or other trial-level process variables. `prepare_multilevel_mediation_data()` preserves every trial, separates within- and between-participant exposure and mediator components, distinguishes genuine zero gaze from unobserved or poor-quality trials, audits trial support and missingness, and carries preprocessing/event/AOI/quality provenance forward.
+
+The preparation layer **does not fit a mediation model**. Bayesian inference belongs in `gp3bayes`; `eyeprocess` owns decomposition, observation semantics, quality flags, and model-ready trial structure. Serial mediators and moderators are prepared with `add_multilevel_mediation_component()` so statistical backends do not reimplement the scientific decomposition.
+
+See the [Trial-level multilevel mediation article](https://stefanosbalaskas.github.io/eyeprocess/articles/trial-level-multilevel-mediation.html) and the mediation-preparation functions in the [reference index](https://stefanosbalaskas.github.io/eyeprocess/reference/index.html).
 
 ## Design commitments
 
@@ -59,14 +114,28 @@ Support level and empirical validation are deliberately kept separate. The exist
 
 ## Installation
 
-Install the exact formal GitHub release:
+### CRAN
+
+The current CRAN release is **0.11.1**, published on **28 September 2026**:
+
+```r
+install.packages("eyeprocess")
+```
+
+The canonical CRAN record is <https://CRAN.R-project.org/package=eyeprocess> and the package DOI is <https://doi.org/10.32614/CRAN.package.eyeprocess>.
+
+### GitHub stable release
+
+The GitHub release line is newer than CRAN. To install the exact **v0.12.0** release:
 
 ```r
 install.packages("remotes")
-remotes::install_github("stefanosbalaskas/eyeprocess", ref = "v0.11.1")
+remotes::install_github("stefanosbalaskas/eyeprocess", ref = "v0.12.0")
 ```
 
-For the current development branch:
+### Development
+
+For the current **0.12.0.9000** development branch:
 
 ```r
 remotes::install_github("stefanosbalaskas/eyeprocess")
@@ -117,7 +186,7 @@ Examples of public interfaces include `fit_irt()`, `fit_explanatory_irt()`, `fit
 
 ## Validation and reproducibility
 
-The 0.11.1 release line preserves an auditable validation contract across data import, transformations, storage, modelling, and reporting. Release validation included the complete test suite and exact source-tarball checking with **0 errors and 0 warnings**; the remaining incoming NOTE concerns submission/optional repository metadata rather than a package failure.
+The **0.11.1 CRAN release** preserves an auditable validation contract across data import, transformations, storage, modelling, and reporting. It was published on CRAN on **28 September 2026** after the CRAN remediation cycle, and is available from the canonical package page and package DOI above. The newer **v0.12.0 GitHub release** and **0.12.0.9000 development branch** remain separate release channels and should not be reported as the CRAN version.
 
 The package also provides infrastructure for real-export validation, grouped validation, parameter recovery, simulation-based calibration, leakage checks, sensitivity analysis, model-evidence audits, benchmark generation, and reproducible reporting.
 
@@ -148,6 +217,7 @@ provenance_manifest(x)
 - [Validating real exports](https://stefanosbalaskas.github.io/eyeprocess/articles/validating-real-exports.html)
 - [Preprocessing and features](https://stefanosbalaskas.github.io/eyeprocess/articles/preprocessing-features.html)
 - [Psychometric process models](https://stefanosbalaskas.github.io/eyeprocess/articles/psychometric-process-models.html)
+- [Standardized Data Quality](https://stefanosbalaskas.github.io/eyeprocess/articles/standardized-data-quality.html)
 - [Measurement accountability](https://stefanosbalaskas.github.io/eyeprocess/articles/measurement-accountability-0-11.html)
 - [Responsible use](https://stefanosbalaskas.github.io/eyeprocess/articles/responsible-use.html)
 - [Complete function reference](https://stefanosbalaskas.github.io/eyeprocess/reference/index.html)
@@ -161,7 +231,7 @@ citation("eyeprocess")
 packageVersion("eyeprocess")
 ```
 
-Studies should report the exact package version and, when relevant, the source commit and modelling backend used.
+Studies should report the exact package version and, when relevant, the source commit and modelling backend used. The canonical CRAN package DOI is [`10.32614/CRAN.package.eyeprocess`](https://doi.org/10.32614/CRAN.package.eyeprocess).
 
 ## Contributing and issues
 

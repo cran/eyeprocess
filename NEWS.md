@@ -1,4 +1,70 @@
-# eyeprocess 0.11.1
+# eyeprocess 0.12.1 — release candidate (not published)
+
+## October 2026 documentation and reproducibility
+
+* Adds a synthetic timestamp-interval versus nominal-sampling article with two original plots and explicit synchronization limitations. No exported API changes; independent scientific draft PR #49 remains excluded.
+* Release gate: complete exact-source R CMD check --as-cran, review installed source tarball and cross-platform tests, audit publication metadata, then publish an immutable GitHub tag and submit to CRAN with maintainer confirmation.
+* Current CRAN baseline at candidate preparation: 0.11.1. The candidate has **not** been submitted to CRAN or published as a GitHub Release.
+
+# eyeprocess 0.12.0.9000
+
+## Development
+
+- Development resumes after the cross-platform CI-certified stable `v0.12.0` release.
+- Stable release provenance remains anchored at commit `4d272f025e70207f31fb2baf10cba31ee8bdb996`; the `v0.12.0` tag and published release assets are unchanged.
+
+## CRAN publication status — 2026-09-28
+
+- **CRAN release:** `eyeprocess` **0.11.1** was published on CRAN on **28 September 2026**.
+- **Canonical CRAN package page:** <https://CRAN.R-project.org/package=eyeprocess>.
+- **CRAN package DOI:** <https://doi.org/10.32614/CRAN.package.eyeprocess>.
+- Release channels remain explicit: CRAN is currently 0.11.1; the newer stable GitHub release is `v0.12.0`; `master` is the 0.12.0.9000 development line.
+
+# eyeprocess 0.12.0
+
+## Release validation status
+
+- **Release status:** `v0.12.0` is the stable GitHub release. It was promoted from pre-release after the exact tagged commit passed the complete cross-platform GitHub R-CMD-check matrix.
+- **Local Windows validation — 2026-09-19:** installed-package targeted tests PASS; strict measurement-intelligence lane PASS; full local test suite PASS; clean survival-vignette rebuild PASS; pkgdown local build PASS; final package installation PASS.
+- **R CMD check:** Windows R 4.6.1, `--as-cran`, **0 errors / 0 warnings / 0 notes**.
+- **Cross-platform certification — 2026-09-19:** macOS release, Windows release, Ubuntu release, Ubuntu devel, and Ubuntu oldrel-1 all passed on commit `4d272f025e70207f31fb2baf10cba31ee8bdb996`. The pkgdown push workflow, pkgdown release workflow, and GitHub Pages deployment also passed.
+- **Release provenance:** tag `v0.12.0` remains permanently anchored to commit `4d272f025e70207f31fb2baf10cba31ee8bdb996`; the validated release source artifact and SHA-256 remain unchanged.
+
+
+## Event detector multiverse and inference robustness
+
+- Adds explicit detector specifications, deterministic detector branches, temporal event matching/agreement, detector-to-AOI/feature propagation, identical-model inference, stability summaries, diagnostic plots, and reproducible reporting.
+- Uses the full declared detector multiverse as the convergence denominator; failed, missing-term, unavailable-backend, and non-converged branches remain in the scientific record. Duplicate coefficient terms from custom callbacks are rejected.
+- Adds per-detector `input_audit` accounting for propagated rows, target-AOI rows, quality exclusions, non-finite outcomes, model rows used, and model status without recoding missing outcomes to zero.
+- Adds the main methodology vignette, failure-clinic vignette and executable example, reporting/interpretation guidance, API documentation, pkgdown discovery, and cross-language contract coverage.
+- Adds a runnable pkgdown visual-reporting vignette using built-in detector branches only, with event-count, temporal-agreement, AOI-feature, coefficient-stability, model-input-accountability, publication-sequence, interpretation-boundary, and API-handoff sections.
+
+## Censored gaze-latency survival examples and site guidance
+
+- Adds a standalone evidence-verification example for time to first source/evidence AOI entry, including right-censoring construction, clustered Cox, Weibull/log-normal AFT sensitivity models, diagnostics, interpretation, and manuscript reporting guidance.
+- Restores the survival methodology articles and the complete survival API group to pkgdown navigation so later site additions do not hide the survival workflow.
+- Adds a troubleshooting clinic covering incomplete windows, time-zero events, sparse events, flagged proportional-hazards diagnostics, low-quality gaze, and competing-event boundaries without changing the public statistical API.
+- Adds a survival reproducibility/preregistration checklist and a site-contract regression test that fails if survival articles, API references, or required worked-example files disappear from the source tree.
+- Expands the plot-rich survival website guidance with Kaplan-Meier, single-event 1-KM, and empirical hazard/risk-set visualizations plus interpretation boundaries.
+
+## Standardized spatial data quality
+
+- Adds a dedicated Data Quality plot gallery and reporting clinic covering accuracy, RMS-S2S, BCEA, sampling intervals, the four-panel dashboard, review-rule sensitivity, limitations, and manuscript-ready reporting.
+- Repairs public export/governance for `simulate_gaze_survival_inputs()` and restores missing multilevel-mediation Rd coverage so package/vignette and pkgdown builds can execute the documented workflows.
+
+- Adds vendor-neutral target-referenced accuracy, RMS sample-to-sample and population-SD precision, BCEA with explicit probability, realized sampling behavior, and reason-aware data loss.
+- Adds a canonical `gaze_quality_report` with metric-specific units, provenance, study-defined review thresholds, insufficiency/timestamp flags, and an explicit no-automatic-exclusion contract.
+- Adds deterministic six-profile 9-point validation data, frozen R/Python numerical fixtures, sensitivity-analysis guidance, manuscript-reporting guidance, and dedicated pkgdown navigation.
+- RMS-S2S never bridges missing samples; mixed units fail; malformed thresholds fail; missing grouping identifiers are retained and audited.
+- Long observed intervals are distinguished from the estimated number of nominal samples represented by those gaps.
+
+## AOI perturbation and uncertainty analysis
+
+- Adds vendor-neutral AOI geometry validation, reproducible dilation/erosion/translation/jitter and anisotropic perturbation specifications, and explicit pixel/degree-of-visual-angle conversion.
+- Adds sample/fixation reassignment matrices, participant/trial/AOI stability summaries, feature recomputation, empirical assignment frequencies, and optional fixed model-callback propagation with retained failure and convergence evidence.
+- Adds rectangle and convex-polygon support, explicit overlap ambiguity, screen-boundary policies, synthetic cross-language parity fixtures, base-R robustness plots, and a runnable advertising/interface vignette.
+- Robustness frequencies remain descriptive sensitivity summaries for the declared perturbation set and are not probabilities that a scientific conclusion is true.
+
 
 ## CRAN portability hotfix
 
